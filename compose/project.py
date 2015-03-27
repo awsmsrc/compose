@@ -177,6 +177,11 @@ class Project(object):
         for service in reversed(self.get_services(service_names)):
             service.stop(**options)
 
+    def stats(self, service_names=None, **options):
+        for service in self.get_services(service_names):
+            log.info("%s", service)
+            log.info("%s", service.stats(**options))
+
     def kill(self, service_names=None, **options):
         for service in reversed(self.get_services(service_names)):
             service.kill(**options)

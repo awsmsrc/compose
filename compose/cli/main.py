@@ -19,6 +19,7 @@ from .docopt_command import NoSuchCommand
 from .errors import UserError
 from .formatter import Formatter
 from .log_printer import LogPrinter
+from .stats_printer import StatsPrinter
 from .utils import yesno
 
 log = logging.getLogger(__name__)
@@ -157,6 +158,18 @@ class TopLevelCommand(Command):
         monochrome = options['--no-color']
         print("Attaching to", list_containers(containers))
         LogPrinter(containers, attach_params={'logs': True}, monochrome=monochrome).run()
+
+    def stats(self, project, options):
+        """
+        stats yo 
+
+        Usage: stats [options] [SERVICE...]
+        """
+        # log.error("Working on it.")
+        containers = project.containers(service_names=options['SERVICE'], stopped=True)
+
+        print("Getting stats for", list_containers(containers))
+        StatsPrinter(containers).run()
 
     def port(self, project, options):
         """
@@ -482,6 +495,7 @@ class TopLevelCommand(Command):
                 timeout = options.get('--timeout')
                 params = {} if timeout is None else {'timeout': int(timeout)}
                 project.stop(service_names=service_names, **params)
+  
 
 
 def list_containers(containers):
