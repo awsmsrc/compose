@@ -142,6 +142,9 @@ class Container(object):
     def logs(self, *args, **kwargs):
         return self.client.logs(self.id, *args, **kwargs)
 
+    def stats(self, **options):
+        return self.client.stats(self.id, **options)
+
     def inspect(self):
         self.dictionary = self.client.inspect_container(self.id)
         self.has_been_inspected = True

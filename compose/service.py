@@ -105,6 +105,10 @@ class Service(object):
             log.info("Stopping %s..." % c.name)
             c.stop(**options)
 
+    def stats(self, **options):
+        for c in self.containers():
+            c.stop(**options)
+
     def kill(self, **options):
         for c in self.containers():
             log.info("Killing %s..." % c.name)
